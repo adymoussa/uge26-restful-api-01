@@ -15,11 +15,16 @@ const app = restify.createServer ({
 // ===========================================================
 // :: Config / Middleware
 
+// :: Port
 const port = process.env.PORT || 3000;
-
 
 // :: Logger
 app.use (logger("dev"));
+
+// :: Restify
+app.use (restify.acceptParser (app.acceptable));
+app.use (restify.queryParser()); // URL
+app.use (restify.bodyParser()); // F.eks. Form data
 
 
 // ===========================================================
