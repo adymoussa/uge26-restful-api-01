@@ -2,6 +2,7 @@
 const path  = require ("path");
 const mysql = require (path.join (__dirname, "..", "config", "mysql"));
 const db    = mysql.connect ();
+const User  = require (path.join (__dirname, "..", "services", "users"));
 
 module.exports = function (app) {
 
