@@ -10,7 +10,7 @@ module.exports = function (app) {
 	// ---------------------------------------
 	// :: Get user by name
 
-	app.get ("/users/:name", function (request, response, next) {
+	app.get ("/users/:username", function (request, response, next) {
 		// response.send (request.params);
 
 		response.send ([
@@ -35,6 +35,27 @@ module.exports = function (app) {
 
 	app.post ("/users", function (request, response, next) {
 		response.send (201, request.params);
+	});
+
+	// ---------------------------------------
+	// :: Put user
+
+	app.put ("/users", function (request, response, next) {
+		response.send (405);
+	});
+
+	// ---------------------------------------
+	// :: Patch user
+
+	app.patch ("/users", function (request, response, next) {
+		response.send (405);
+	});
+
+	// ---------------------------------------
+	// :: Delete user
+
+	app.del ("/users", function (request, response, next) {
+		response.send (405);
 	});
 
 };

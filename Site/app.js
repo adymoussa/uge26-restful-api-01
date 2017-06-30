@@ -23,12 +23,12 @@ app.use (logger("dev"));
 
 // :: Restify
 app.use (restify.acceptParser (app.acceptable));
-app.use (restify.queryParser()); // URL
-app.use (restify.bodyParser()); // F.eks. Form data
+app.use (restify.queryParser ()); // URL
+app.use (restify.bodyParser ()); // F.eks. Form data
 
 
 // ===========================================================
-// :: Modules
+// :: Routes / Modules
 
 require (path.join (__dirname, "routes", "index"))(app);
 
