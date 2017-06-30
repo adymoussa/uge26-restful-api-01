@@ -1,7 +1,7 @@
 
 const path  = require ("path");
-const mysql = require (path.join (__dirname, "..", "config", "mysql"));
-const db    = mysql.connect ();
+// const mysql = require (path.join (__dirname, "..", "config", "mysql"));
+// const db    = mysql.connect ();
 const User  = require (path.join (__dirname, "..", "services", "users"));
 
 module.exports = function (app) {
@@ -11,37 +11,46 @@ module.exports = function (app) {
 
 
 	// ---------------------------------------
-	// :: Get user by name
+	// :: Get all users
 
-	app.get ("/users/:username", function (request, response, next) {
-		// response.send (request.params);
+	app.get ("/users", function (request, response, next) {
+		
+		console.log ("Ady --- Route GET: /users");
 
-		const status_execute = db.execute ("SELECT id, username FROM users", function (error, rows, fields) {
+		let user = new User ();
+
+		user.getAll (function (error, result) {
 			if (error) {
-				console.log (error.message);
+				console.error (error.message);
 				response.send (404);
 				return;
 			}
-			response.send (200, rows);
 
-			// console.log ("Rows: ");
-			// console.log (rows);
+			response.send (result);
 		});
-		
 
-		// response.send ([
-		// 	{
-		// 		"username" : "amo",
-		// 		"fornavn"  : "Ady",
-		// 		"efternavn": "Moussa"
-		// 	},
+	});
+
+
+	// ---------------------------------------
+	// :: Get user by name
+
+	app.get ("/users/:username", function (request, response, next) {
+		
+		let user = new User ();
+
+		user.getOne (request.params.username, function (error, result) {
+			if (error) {
+				console.error (error.message);
+				response.send (404);
+				return;
+			}
 			
-		// 	{
-		// 		"username" : "fm",
-		// 		"fornavn"  : "Funky",
-		// 		"efternavn": "Monkey"
-		// 	}
-		// ]);
+			console.log ("OK - getOne");
+			response.send (result);
+		});
+
+		response.end();
 
 	});
 
@@ -50,7 +59,22 @@ module.exports = function (app) {
 	// :: Create user
 
 	app.post ("/users", function (request, response, next) {
-		response.send (201, request.params);
+		
+		console.log ("Ady --- Route POST: /users");
+
+		let user = new User ();
+
+		user.create (request.params, function (error, result) {
+			if (error) {
+				console.error (error.message);
+				response.send (400);
+				return;
+			}
+			
+			response.send (201, result);
+		});
+		
+		// response.send (201, request.params);
 	});
 
 	// ---------------------------------------

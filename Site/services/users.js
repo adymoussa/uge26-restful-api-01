@@ -1,14 +1,25 @@
 
+
+// :: Class User
+
+	// :: Get All
+	// :: Get One
+	// :: Create
+
+
+
+// ===========================================================
+// :: Dependencies
+
 const path  = require ("path");
-// const mysql = require (path.join (__dirname, "..", "config", "mysql"));
-// const db    = mysql.connect ();
+const mysql = require (path.join (__dirname, "..", "config", "mysql"));
+const db    = mysql.connect ();
 
 
 // ===========================================================
 // :: Class User
 
 class User {
-
 
 	// ---------------------------------------
 	// :: Get All
@@ -19,7 +30,7 @@ class User {
 			FROM users
 		`, function (error, rows) {
 			if (error) return next (error);
-			next (null, nrows);
+			next (null, rows);
 		});
 	}
 
@@ -35,9 +46,28 @@ class User {
 
 		, function (error, rows) {
 			if (error) return next (error);
-			next (null, nrows);
+			next (null, rows);
 		});
 	}
+
+	// ---------------------------------------
+	// :: Create
+
+	create (values, next) {
+		db.execute (
+			`
+				INSERT INTO users
+				SET
+					username = ?,
+					password = ?
+			`,
+			[values.username, values.password],
+
+			function (error, result) {
+				if (error) return next (error);
+				next (null, result);
+			}
+	)}
 
 }
 
